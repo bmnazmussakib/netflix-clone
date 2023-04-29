@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../models/User');
 const CryptoJS = require("crypto-js");
+const jwt = require('jsonwebtoken');
 
 
 // Register
@@ -32,12 +33,19 @@ router.post("/login", async (req, res) => {
         // Check password
         const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
         const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
-        console.log('Password:', originalPassword);
+        
 
         originalPassword != req.body.password && res.status(401).json("❌Email or Password is not match❌")
 
+        const accessToken = jwt.sign(
+            {id: user._id, isAdmin: user.isAdmin},
+            process.env.SECRET_KEY,
+            {expiresIn: '2d'}
+        )
+
+        const {password, ...info} = user._doc;
         // user && originalPassword === req.body.password && 
-        res.status(200).json(user)
+        res.status(200).json({...info, accessToken})
 
         
 

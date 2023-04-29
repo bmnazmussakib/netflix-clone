@@ -5,7 +5,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 
-const authRouter = require('./routes/auth')
+const authRouter = require('./routes/authRoute')
+const userRouter = require('./routes/usersRoute')
 const app = express()
 const port = 4000 
 
@@ -30,6 +31,7 @@ main().then(()=>console.log("🧡 Database Connection Successful🧡")).catch(er
 
 
 app.use('/api/auth', authRouter)
+app.use('/api/users', userRouter)
 
 
 
