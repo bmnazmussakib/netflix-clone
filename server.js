@@ -6,6 +6,11 @@ const cors = require('cors')
 
 
 const authRouter = require('./routes/auth')
+const moviesRouter = require('./routes/movies')
+const listsRouter = require('./routes/lists')
+
+
+
 const app = express()
 const port = 4000 
 
@@ -30,7 +35,8 @@ main().then(()=>console.log("🧡 Database Connection Successful🧡")).catch(er
 
 
 app.use('/api/auth', authRouter)
-
+app.use('/api/movies', moviesRouter)
+app.use('/api/lists', listsRouter)
 
 
 app.get('/', (req, res) => {
